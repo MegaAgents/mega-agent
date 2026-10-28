@@ -31,6 +31,18 @@ While classical blockchains operate at 400ms to 12-second block intervals, **Meg
 
 ---
 
+## 🌐 Live On-Chain Deployments (MegaETH Carrot Testnet)
+
+The MegaAgent core protocol is live, operational, and executing on the official MegaETH Carrot Testnet (`Chain ID: 6343`):
+
+* **Contract Address:** [`0x9233Ff9667f55253b3cC19aAf82A4e0Dfe216e68`](https://testnet-mega.etherscan.io/address/0x9233Ff9667f55253b3cC19aAf82A4e0Dfe216e68)
+* **Deployment Tx:** [`0xc6eb2b62f247799a...`](https://testnet-mega.etherscan.io/tx/0xc6eb2b62f247799a66490803fd13aebc34a1c550fb236304f88ed47f984ec4a3)
+* **Live Allowance Tx:** [`0x5af9c174ff363e15...`](https://testnet-mega.etherscan.io/tx/0x5af9c174ff363e15fb79b6f2e4109cab61a9ef13254e107d70eca8edfbe36d4d)
+* **Live Micro-Spend Stream:** [`0xb0688aeeb78b81c8...`](https://testnet-mega.etherscan.io/tx/0xb0688aeeb78b81c8cf71721888d219b4bc3f29d8949985ae3fe81d0514c851b4)
+* **Treasury Recipient:** `0x40B7d9273092822341860F5610168861351e71eb`
+
+---
+
 ## 🏛️ Architecture
 
 ```

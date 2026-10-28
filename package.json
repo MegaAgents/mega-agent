@@ -7,6 +7,9 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "compile": "tsx scripts/compile.ts",
+    "create-wallet": "tsx scripts/create-burner-wallet.ts",
+    "deploy:testnet": "tsx scripts/deploy-testnet.ts",
     "test": "vitest run",
     "benchmark": "tsx scripts/benchmark-10ms.ts"
   },
@@ -34,6 +37,8 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@types/node": "^22.7.4",
+    "ethers": "^6.17.0",
+    "solc": "^0.8.38",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2",
     "vitest": "^2.1.1"

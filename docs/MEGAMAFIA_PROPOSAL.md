@@ -78,6 +78,19 @@ Benchmarked on standard hardware executing against local simulated MegaETH state
 
 ---
 
+## 4.1 Live On-Chain Proofs (MegaETH Carrot Testnet)
+
+The protocol is fully deployed, initialized, and verified on the official MegaETH Carrot Testnet (`Chain ID: 6343`):
+
+* **Deployed Contract:** [`0x9233Ff9667f55253b3cC19aAf82A4e0Dfe216e68`](https://testnet-mega.etherscan.io/address/0x9233Ff9667f55253b3cC19aAf82A4e0Dfe216e68)
+* **Deployment Transaction:** [`0xc6eb2b62f247799a...`](https://testnet-mega.etherscan.io/tx/0xc6eb2b62f247799a66490803fd13aebc34a1c550fb236304f88ed47f984ec4a3)
+* **Live Allowance Provisioning:** [`0x5af9c174ff363e15...`](https://testnet-mega.etherscan.io/tx/0x5af9c174ff363e15fb79b6f2e4109cab61a9ef13254e107d70eca8edfbe36d4d)
+* **Live Micro-Spend Stream 1:** [`0xb0688aeeb78b81c8...`](https://testnet-mega.etherscan.io/tx/0xb0688aeeb78b81c8cf71721888d219b4bc3f29d8949985ae3fe81d0514c851b4)
+* **Live Micro-Spend Stream 2 (Burst):** [`0xdc869fec543fdb30...`](https://testnet-mega.etherscan.io/tx/0xdc869fec543fdb305eda6fff572add3ee99f75719d75756dc83303ae2bc04353)
+* **Treasury Recipient:** `0x40B7d9273092822341860F5610168861351e71eb`
+
+---
+
 ## 5. Ecosystem Impact for MegaETH
 
 Deploying MegaAgent on MegaETH unlocks:
