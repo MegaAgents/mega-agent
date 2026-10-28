@@ -3,6 +3,7 @@
 > **Sub-10ms In-Memory Streaming Settlements & Scoped Micro-Allowances for Autonomous AI Agents**
 
 [![CI](https://github.com/MegaAgents/mega-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/MegaAgents/mega-agent/actions/workflows/ci.yml)
+[![Live Dashboard](https://img.shields.io/badge/Live_Dashboard-megaagents.github.io-00f5ff?logo=googlechrome&logoColor=white)](https://megaagents.github.io/mega-agent/)
 [![ORCID](https://img.shields.io/badge/ORCID-0009--0008--2818--6579-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0008-2818-6579)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Latency: Sub-10ms](https://img.shields.io/badge/Latency-Sub--10ms_Verified-green)](scripts/benchmark-10ms.ts)
@@ -35,6 +36,7 @@ While classical blockchains operate at 400ms to 12-second block intervals, **Meg
 
 The MegaAgent core protocol is live, operational, and executing on the official MegaETH Carrot Testnet (`Chain ID: 6343`):
 
+* **Interactive Live Dashboard:** [https://megaagents.github.io/mega-agent/](https://megaagents.github.io/mega-agent/)
 * **Contract Address:** [`0x9233Ff9667f55253b3cC19aAf82A4e0Dfe216e68`](https://testnet-mega.etherscan.io/address/0x9233Ff9667f55253b3cC19aAf82A4e0Dfe216e68)
 * **Deployment Tx:** [`0xc6eb2b62f247799a...`](https://testnet-mega.etherscan.io/tx/0xc6eb2b62f247799a66490803fd13aebc34a1c550fb236304f88ed47f984ec4a3)
 * **Live Allowance Tx:** [`0x5af9c174ff363e15...`](https://testnet-mega.etherscan.io/tx/0x5af9c174ff363e15fb79b6f2e4109cab61a9ef13254e107d70eca8edfbe36d4d)
