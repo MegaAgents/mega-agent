@@ -23,6 +23,10 @@
       --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -716,6 +720,51 @@
       color: var(--neon-cyan);
     }
 
+    /* Target section highlight animation */
+    :target {
+      animation: targetHighlight 2.5s ease-out;
+    }
+
+    @keyframes targetHighlight {
+      0% {
+        box-shadow: 0 0 35px rgba(0, 245, 255, 0.7);
+        border-color: var(--neon-cyan);
+      }
+      100% {
+        box-shadow: none;
+      }
+    }
+
+    /* Burst Toast Notification */
+    .burst-toast {
+      position: fixed;
+      top: 88px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-25px);
+      background: rgba(11, 17, 32, 0.96);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--neon-cyan);
+      box-shadow: 0 0 30px rgba(0, 245, 255, 0.45);
+      color: #ffffff;
+      padding: 12px 26px;
+      border-radius: 30px;
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .burst-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
     /* Responsive adjustments */
     @media (max-width: 768px) {
       .hero h1 { font-size: 2.2rem; }
@@ -781,7 +830,7 @@
       </p>
 
       <div class="hero-actions">
-        <button class="btn btn-primary" onclick="triggerSwarmBurst(2500)">
+        <button class="btn btn-primary" id="heroBurstBtn" onclick="triggerSwarmBurst(2500, true)">
           ⚡ Launch Swarm Burst (2,500 Tx)
         </button>
         <a href="#contract-section" class="btn btn-outline">
@@ -1224,12 +1273,38 @@
       };
     });
 
-    // Particle Pulses
+    // Particle Pulses & Shockwaves
     let pulses = [];
+    let shockwaves = [];
     let isContinuousStreaming = true;
     let totalMicroSpends = 24500;
     let streamedEth = 2.4500;
     let currentLiveTps = 142850;
+
+    function createShockwave() {
+      shockwaves.push({
+        radius: 14,
+        maxRadius: Math.max(width, height) * 0.65,
+        opacity: 0.95,
+        speed: 9,
+        color: '#00f5ff'
+      });
+    }
+
+    function showBurstToast(msg) {
+      let toast = document.getElementById('burstToast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'burstToast';
+        toast.className = 'burst-toast';
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = `<span class="pulse-dot"></span> <span>${msg}</span>`;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
 
     function spawnPulse(sourceNode) {
       pulses.push({
@@ -1247,15 +1322,51 @@
       streamedEth += 0.0001;
     }
 
-    function triggerSwarmBurst(count) {
-      for (let i = 0; i < Math.min(count, 50); i++) {
-        const randNode = nodes[Math.floor(Math.random() * nodes.length)];
-        setTimeout(() => spawnPulse(randNode), i * 15);
+    function triggerSwarmBurst(count, fromHero = false) {
+      // 1. Smooth scroll to simulator section so user views the animation
+      const sim = document.getElementById('simulator-section');
+      if (sim) {
+        sim.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
+
+      // 2. Button feedback if triggered from hero
+      const heroBtn = document.getElementById('heroBurstBtn');
+      if (heroBtn) {
+        const orig = heroBtn.innerHTML;
+        heroBtn.innerHTML = `⚡ Fired ${count.toLocaleString()} Tx! (149k TPS)`;
+        heroBtn.style.background = 'linear-gradient(135deg, #10b981, #00f5ff)';
+        heroBtn.style.boxShadow = '0 0 25px rgba(16, 185, 129, 0.6)';
+        setTimeout(() => {
+          heroBtn.innerHTML = orig;
+          heroBtn.style.background = '';
+          heroBtn.style.boxShadow = '';
+        }, 2200);
+      }
+
+      // 3. Show high-tech Toast notification banner
+      showBurstToast(`⚡ Swarm Burst: +${count.toLocaleString()} Micro-Spends Settled in 0.034ms (149,253 TPS)!`);
+
+      // 4. Trigger Canvas Shockwaves
+      createShockwave();
+      setTimeout(createShockwave, 200);
+
+      // 5. Emit rapid particle laser pulses from nodes
+      for (let i = 0; i < Math.min(count, 80); i++) {
+        const randNode = nodes[Math.floor(Math.random() * nodes.length)];
+        setTimeout(() => spawnPulse(randNode), i * 10);
+      }
+
       totalMicroSpends += count;
       streamedEth += (count * 0.0001);
       currentLiveTps = 149253;
       updateStats();
+
+      // Highlight footer stat boxes
+      const statBoxes = document.querySelectorAll('.sim-stat-box .num');
+      statBoxes.forEach(box => {
+        box.style.textShadow = '0 0 15px #00f5ff';
+        setTimeout(() => { box.style.textShadow = ''; }, 1200);
+      });
     }
 
     function toggleContinuousStream() {
@@ -1373,6 +1484,27 @@
         ctx.shadowColor = p.color;
         ctx.shadowBlur = 10;
         ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      // Render Shockwaves
+      for (let i = shockwaves.length - 1; i >= 0; i--) {
+        const sw = shockwaves[i];
+        sw.radius += sw.speed;
+        sw.opacity -= 0.018;
+
+        if (sw.opacity <= 0 || sw.radius >= sw.maxRadius) {
+          shockwaves.splice(i, 1);
+          continue;
+        }
+
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, sw.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(0, 245, 255, ${sw.opacity})`;
+        ctx.lineWidth = 3;
+        ctx.shadowColor = '#00f5ff';
+        ctx.shadowBlur = 15;
+        ctx.stroke();
         ctx.shadowBlur = 0;
       }
 
