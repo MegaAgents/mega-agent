@@ -17,7 +17,7 @@ async function run10msBenchmark() {
     rpcUrl: 'https://testnet.megaeth.systems/rpc',
     wsUrl: 'wss://testnet.megaeth.systems/ws',
     contractAddress: '0x1234567890123456789012345678901234567890',
-    treasuryAddress: '0x71C8360f3a104d31a1a723363574F20e1634b07e'
+    treasuryAddress: '0x40B7d9273092822341860F5610168861351e71eb'
   });
 
   const principal = '0x1111111111111111111111111111111111111111';
