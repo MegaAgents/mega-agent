@@ -2,7 +2,7 @@
 
 > **Sub-10ms In-Memory Streaming Settlements & Scoped Micro-Allowances for Autonomous AI Agents**
 
-[![CI](https://github.com/sparkysolutions10-pixel/mega-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/sparkysolutions10-pixel/mega-agent/actions/workflows/ci.yml)
+[![CI](https://github.com/MegaAgents/mega-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/MegaAgents/mega-agent/actions/workflows/ci.yml)
 [![ORCID](https://img.shields.io/badge/ORCID-0009--0008--2818--6579-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0008-2818-6579)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Latency: Sub-10ms](https://img.shields.io/badge/Latency-Sub--10ms_Verified-green)](scripts/benchmark-10ms.ts)

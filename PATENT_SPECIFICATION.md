@@ -10,7 +10,7 @@
 - **Sole Inventor / Author:** `sparkysolutions10-pixel`
 - **Permanent Academic & Research Identifier:** [ORCID: 0009-0008-2818-6579](https://orcid.org/0009-0008-2818-6579)
 - **Official GitHub Profile:** [https://github.com/sparkysolutions10-pixel](https://github.com/sparkysolutions10-pixel)
-- **Repository:** `sparkysolutions10-pixel/mega-agent`
+- **Repository:** `MegaAgents/mega-agent` [https://github.com/MegaAgents/mega-agent](https://github.com/MegaAgents/mega-agent)
 - **Legal Ownership:** 100% Fully Owned & Controlled by Sole Inventor. All proprietary implementation rights, algorithmic state-machine designs, and high-frequency protocol fee architectures are reserved under Apache-2.0 / Proprietary IP Attribution.
 
 ---
