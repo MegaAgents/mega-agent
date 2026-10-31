@@ -1,10 +1,19 @@
 {
-  "name": "@megaagent/core",
+  "name": "megaagent",
   "version": "0.1.0",
   "description": "Real-Time High-Frequency Autonomous AI Agent Swarm Protocol on MegaETH (Sub-10ms In-Memory Settlement & Micro-Allowances)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
+  "files": [
+    "dist",
+    "contracts",
+    "README.md",
+    "ARCHITECTURE.md",
+    "BENCHMARKS.md",
+    "MEGAETH_ECOSYSTEM_GRANT_APPLICATION.md",
+    "PATENT_SPECIFICATION.md"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "compile": "tsx scripts/compile.ts",
@@ -25,16 +34,24 @@
     "erc-4337"
   ],
   "author": {
-    "name": "sparkysolutions10-pixel",
+    "name": "Mukesh Biswas (sparkysolutions10-pixel)",
     "orcid": "https://orcid.org/0009-0008-2818-6579"
   },
   "contributors": [
     {
-      "name": "sparkysolutions10-pixel",
+      "name": "Mukesh Biswas",
       "orcid": "https://orcid.org/0009-0008-2818-6579"
     }
   ],
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MegaAgents/mega-agent.git"
+  },
+  "homepage": "https://github.com/MegaAgents/mega-agent#readme",
+  "bugs": {
+    "url": "https://github.com/MegaAgents/mega-agent/issues"
+  },
   "devDependencies": {
     "@types/node": "^22.7.4",
     "ethers": "^6.17.0",
