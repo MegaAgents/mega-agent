@@ -6,9 +6,20 @@
 
 import { ScopedAllowanceConfig, MicroSpendRequest, SpendReceipt, MegaETHNetworkConfig } from './types.js';
 
+interface InternalAllowanceRecord {
+  max: bigint;
+  spent: bigint;
+  expiresAt: number;
+  target?: string;
+  active: boolean;
+  maxVelocitySpendsPerSecond?: number;
+  velocityWindowMs: number;
+  spendTimestamps: number[];
+}
+
 export class MegaAgentClient {
   private config: MegaETHNetworkConfig;
-  private allowances: Map<string, { max: bigint; spent: bigint; expiresAt: number; target?: string }> = new Map();
+  private allowances: Map<string, InternalAllowanceRecord> = new Map();
 
   constructor(config: MegaETHNetworkConfig) {
     this.config = config;
@@ -20,8 +31,32 @@ export class MegaAgentClient {
       max: cfg.maxBudgetWei,
       spent: 0n,
       expiresAt: cfg.validUntil,
-      target: cfg.allowedTarget?.toLowerCase()
+      target: cfg.allowedTarget?.toLowerCase(),
+      active: true,
+      maxVelocitySpendsPerSecond: cfg.maxVelocitySpendsPerSecond,
+      velocityWindowMs: cfg.velocityWindowMs ?? 1000,
+      spendTimestamps: []
     });
+  }
+
+  /**
+   * Revokes or freezes an agent's allowance immediately.
+   */
+  public revokeAllowance(principal: string, agent: string): void {
+    const key = `${principal.toLowerCase()}:${agent.toLowerCase()}`;
+    const allowance = this.allowances.get(key);
+    if (allowance) {
+      allowance.active = false;
+    }
+  }
+
+  /**
+   * Checks whether an allowance is currently active and unexpired.
+   */
+  public isAllowanceActive(principal: string, agent: string): boolean {
+    const key = `${principal.toLowerCase()}:${agent.toLowerCase()}`;
+    const a = this.allowances.get(key);
+    return Boolean(a && a.active && Date.now() <= a.expiresAt);
   }
 
   /**
@@ -36,12 +71,33 @@ export class MegaAgentClient {
       throw new Error(`MegaAgentRail: No allowance provisioned for agent ${agent}`);
     }
 
+    if (!allowance.active) {
+      throw new Error(`MegaAgentRail: Allowance has been revoked or frozen`);
+    }
+
     if (Date.now() > allowance.expiresAt) {
       throw new Error('MegaAgentRail: Allowance expired');
     }
 
     if (allowance.target && allowance.target !== req.recipientAddress.toLowerCase()) {
       throw new Error('MegaAgentRail: Recipient does not match scoped allowance target');
+    }
+
+    // Velocity Limiter Check (Runaway agent loop defense - Issue #25)
+    if (allowance.maxVelocitySpendsPerSecond && allowance.maxVelocitySpendsPerSecond > 0) {
+      const now = Date.now();
+      const windowStart = now - allowance.velocityWindowMs;
+      // Filter out timestamps older than the sliding window
+      allowance.spendTimestamps = allowance.spendTimestamps.filter(t => t >= windowStart);
+
+      if (allowance.spendTimestamps.length >= allowance.maxVelocitySpendsPerSecond) {
+        // Runaway loop detected! Auto-revoke allowance immediately to protect principal funds
+        allowance.active = false;
+        throw new Error(
+          `MegaAgentRail: Velocity limit exceeded (${allowance.spendTimestamps.length} spends in ${allowance.velocityWindowMs}ms). Automated circuit breaker triggered: allowance revoked to prevent runaway loop.`
+        );
+      }
+      allowance.spendTimestamps.push(now);
     }
 
     if (allowance.spent + req.amountWei > allowance.max) {
@@ -52,7 +108,7 @@ export class MegaAgentClient {
     const fee = (req.amountWei * 20n) / 10000n;
     const net = req.amountWei - fee;
 
-    // Mutate state in RAM
+    // Mutate state in RAM (Checks-Effects-Interactions: state updated before outward receipt generation)
     allowance.spent += req.amountWei;
 
     const totalLatencyMs = Number((performance.now() - startTime).toFixed(3));
@@ -79,7 +135,7 @@ export class MegaAgentClient {
   public getRemainingBudget(principal: string, agent: string): bigint {
     const key = `${principal.toLowerCase()}:${agent.toLowerCase()}`;
     const a = this.allowances.get(key);
-    if (!a) return 0n;
+    if (!a || !a.active) return 0n;
     if (a.spent >= a.max) return 0n;
     return a.max - a.spent;
   }

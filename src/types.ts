@@ -8,6 +8,8 @@ export interface ScopedAllowanceConfig {
   maxBudgetWei: bigint;
   validUntil: number;
   allowedTarget?: string;
+  maxVelocitySpendsPerSecond?: number;
+  velocityWindowMs?: number;
 }
 
 export interface MicroSpendRequest {
